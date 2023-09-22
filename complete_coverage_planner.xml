@@ -1,0 +1,5 @@
+<library path="nav2_complete_coverage_planner">
+    <class name="nav2_complete_coverage_planner/CompleteCoverage" type="nav2_complete_coverage_planner::CompleteCoverage" base_class_type="nav2_core::GlobalPlanner">
+        <description>Full coverage planner.</description>
+    </class>
+</library>
