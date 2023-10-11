@@ -65,6 +65,8 @@ namespace nav2_complete_coverage_planner
                 node_, name_ + ".interpolation_resolution", rclcpp::ParameterValue(
                     0.1));
         node_->get_parameter(name_ + ".interpolation_resolution", interpolation_resolution_);
+
+        publisher_ = node_->create_publisher<nav_msgs::msg::Path>("/coverage_path", 10);
     }
 
     void CompleteCoverage::cleanup()
@@ -127,7 +129,7 @@ namespace nav2_complete_coverage_planner
         f2c::obj::NSwath n_swath_obj;
         f2c::sg::BruteForce bf_sw_gen_nswath;
 
-        F2CSwaths swaths_bf_nswath = bf_sw_gen_nswath.generateBestSwaths(n_swath_obj, 1.0, cells.getGeometry(0));
+        F2CSwaths swaths_bf_nswath = bf_sw_gen_nswath.generateBestSwaths(n_swath_obj, robot.op_width, cells.getGeometry(0));
 
         f2c::rp::BoustrophedonOrder boustrophedon_sorter;
         F2CSwaths boustrophedon_swaths = boustrophedon_sorter.genSortedSwaths(swaths_bf_nswath);
@@ -199,6 +201,7 @@ namespace nav2_complete_coverage_planner
         goal_pose.header.stamp = node_->now();
         goal_pose.header.frame_id = global_frame_;
         global_path.poses.push_back(goal_pose);*/
+        publisher_->publish(global_path);
 
         return global_path;
     }

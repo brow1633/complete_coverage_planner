@@ -98,6 +98,7 @@ private:
   std::string global_frame_, name_;
 
   double interpolation_resolution_;
+  rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
 };
 
 }  // namespace nav2_straightline_planner
