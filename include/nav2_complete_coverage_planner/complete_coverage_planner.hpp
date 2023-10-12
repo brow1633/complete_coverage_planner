@@ -43,6 +43,7 @@
 
 #include <string>
 #include <memory>
+#include <opencv2/opencv.hpp>
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/point.hpp"
@@ -83,6 +84,15 @@ public:
     const geometry_msgs::msg::PoseStamped & start,
     const geometry_msgs::msg::PoseStamped & goal) override;
 
+protected:
+  std::vector<cv::Point> findSmallestContour_(const std::vector<std::vector<cv::Point>> &contours,
+                                              const std::vector<cv::Vec4i> &hierarchy,
+                                              cv::Point robotPoint,
+                                              int idx,
+                                              double min_area);
+
+  std::vector<cv::Point> findArea(const geometry_msgs::msg::PoseStamped &start);
+
 private:
   std::vector<geometry_msgs::msg::PoseStamped> straightLine( const geometry_msgs::msg::PoseStamped & start, const geometry_msgs::msg::PoseStamped & goal);
   // TF buffer
@@ -98,6 +108,11 @@ private:
   std::string global_frame_, name_;
 
   double interpolation_resolution_;
+  double robot_width_;
+  double operation_width_;
+  double min_radius_;
+  double lin_curve_change_;
+
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
 };
 

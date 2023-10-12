@@ -20,6 +20,7 @@ find_package(tf2_ros REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(nav2_complete_coverage_msgs REQUIRED)
 find_package(Fields2Cover REQUIRED)
+find_package(OpenCV REQUIRED)
 
 set(dependencies
   rclcpp
@@ -39,6 +40,7 @@ set(dependencies
   pluginlib
   nav2_complete_coverage_msgs
   Fields2Cover
+  OpenCV
 )
 
 include_directories(
