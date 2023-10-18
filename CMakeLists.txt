@@ -18,7 +18,6 @@ find_package(nav2_util REQUIRED)
 find_package(nav2_core REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(pluginlib REQUIRED)
-find_package(nav2_complete_coverage_msgs REQUIRED)
 find_package(Fields2Cover REQUIRED)
 
 set(dependencies
@@ -37,7 +36,6 @@ set(dependencies
   nav2_core
   tf2_ros
   pluginlib
-  nav2_complete_coverage_msgs
   Fields2Cover
 )
 
