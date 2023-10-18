@@ -57,6 +57,10 @@
 
 namespace nav2_complete_coverage_planner
 {
+typedef struct _Point{
+  double x;
+  double y;
+} Point;
 
 class CompleteCoverage : public nav2_core::GlobalPlanner
 {
@@ -91,7 +95,7 @@ protected:
                                               int idx,
                                               double min_area);
 
-  std::vector<cv::Point> findArea(const geometry_msgs::msg::PoseStamped &start);
+  bool findArea(const geometry_msgs::msg::PoseStamped &start, std::vector<Point> &output);
 
 private:
   std::vector<geometry_msgs::msg::PoseStamped> straightLine( const geometry_msgs::msg::PoseStamped & start, const geometry_msgs::msg::PoseStamped & goal);
@@ -114,6 +118,7 @@ private:
   double lin_curve_change_;
 
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
+
 };
 
 }  // namespace nav2_straightline_planner
