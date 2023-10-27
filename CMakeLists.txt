@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(nav2_complete_coverage_planner)
 
 find_package(ament_cmake REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(nav2_common REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
@@ -37,6 +38,7 @@ set(dependencies
   tf2_ros
   pluginlib
   Fields2Cover
+  OpenCV
 )
 
 include_directories(

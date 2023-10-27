@@ -251,11 +251,10 @@ namespace nav2_complete_coverage_planner
             if (cv::pointPolygonTest(contours[idx], robotPoint, false) > 0) {
                 RCLCPP_INFO(
                         node_->get_logger(), "Robot in contour");
-                if(contours[idx].size() > 0) {
-                    double area = cv::contourArea(contours[idx]);
-                } else {
+                if(contours[idx].size() <= 0) {
                     continue;
                 }
+		double area = cv::contourArea(contours[idx]);
 
                 if (area < min_area) {
                     min_area = area;
