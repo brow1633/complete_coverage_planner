@@ -82,6 +82,10 @@ namespace nav2_complete_coverage_planner
                 node_, name_ + ".lin_curve_change", rclcpp::ParameterValue(50.0));
         node_->get_parameter(name_ + ".lin_curve_change", lin_curve_change_);
 
+        nav2_util::declare_parameter_if_not_declared(
+                node_, name_ + ".headland_width", rclcpp::ParameterValue(1.0));
+        node_->get_parameter(name_ + ".headland_width", headland_width_);
+
 
         publisher_ = node_->create_publisher<nav_msgs::msg::Path>("/coverage_path", 10);
     }
@@ -156,7 +160,10 @@ namespace nav2_complete_coverage_planner
         f2c::obj::NSwath n_swath_obj;
         f2c::sg::BruteForce bf_sw_gen_nswath;
 
-        F2CSwaths swaths_bf_nswath = bf_sw_gen_nswath.generateBestSwaths(n_swath_obj, robot.op_width, cells.getGeometry(0));
+        f2c::hg::ConstHL const_hl;
+        F2CCells no_hl = const_hl.generateHeadlands(cells, headland_width_);
+
+        F2CSwaths swaths_bf_nswath = bf_sw_gen_nswath.generateBestSwaths(n_swath_obj, robot.op_width, no_hl.getGeometry(0));
 
         f2c::rp::BoustrophedonOrder boustrophedon_sorter;
         F2CSwaths boustrophedon_swaths = boustrophedon_sorter.genSortedSwaths(swaths_bf_nswath);
@@ -251,9 +258,8 @@ namespace nav2_complete_coverage_planner
             if (cv::pointPolygonTest(contours[idx], robotPoint, false) > 0) {
                 RCLCPP_INFO(
                         node_->get_logger(), "Robot in contour");
-                if(contours[idx].size() > 0) {
-                    double area = cv::contourArea(contours[idx]);
-                } else {
+		    double area = cv::contourArea(contours[idx]);
+                if(contours[idx].size() <= 0) {
                     continue;
                 }
 
