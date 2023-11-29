@@ -117,6 +117,7 @@ private:
   double min_radius_;
   double lin_curve_change_;
   double swath_angle_;
+  double headland_width_;
 
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
 
