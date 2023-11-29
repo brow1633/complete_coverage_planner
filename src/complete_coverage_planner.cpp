@@ -83,6 +83,8 @@ namespace nav2_complete_coverage_planner
         node_->get_parameter(name_ + ".lin_curve_change", lin_curve_change_);
 
         nav2_util::declare_parameter_if_not_declared(
+                node_, name_ + ".swath_angle", rclcpp::ParameterValue(0.0));
+        node_->get_parameter(name_ + ".swath_angle", swath_angle_);
                 node_, name_ + ".headland_width", rclcpp::ParameterValue(1.0));
         node_->get_parameter(name_ + ".headland_width", headland_width_);
 
@@ -158,15 +160,17 @@ namespace nav2_complete_coverage_planner
         robot.linear_curv_change = lin_curve_change_;
 
         f2c::obj::NSwath n_swath_obj;
-        f2c::sg::BruteForce bf_sw_gen_nswath;
+        f2c::sg::BruteForce bf_sw_gen_angle;
 
+        //F2CSwaths swaths_bf_nswath = bf_sw_gen_nswath.generateBestSwaths(n_swath_obj, robot.op_width, cells.getGeometry(0));
         f2c::hg::ConstHL const_hl;
         F2CCells no_hl = const_hl.generateHeadlands(cells, headland_width_);
+        F2CSwaths swaths_bf_angle = bf_sw_gen_angle.generateSwaths(swath_angle_, robot.op_width, no_hl.getGeometry(0));
 
-        F2CSwaths swaths_bf_nswath = bf_sw_gen_nswath.generateBestSwaths(n_swath_obj, robot.op_width, no_hl.getGeometry(0));
 
         f2c::rp::BoustrophedonOrder boustrophedon_sorter;
-        F2CSwaths boustrophedon_swaths = boustrophedon_sorter.genSortedSwaths(swaths_bf_nswath);
+        //F2CSwaths boustrophedon_swaths = boustrophedon_sorter.genSortedSwaths(swaths_bf_nswath);
+        F2CSwaths boustrophedon_swaths = boustrophedon_sorter.genSortedSwaths(swaths_bf_angle);
 
         f2c::pp::PathPlanning path_planner;
 
