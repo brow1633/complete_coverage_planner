@@ -83,10 +83,12 @@ namespace nav2_complete_coverage_planner
         node_->get_parameter(name_ + ".lin_curve_change", lin_curve_change_);
 
         nav2_util::declare_parameter_if_not_declared(
-                node_, name_ + ".swath_angle", rclcpp::ParameterValue(0.0));
-        node_->get_parameter(name_ + ".swath_angle", swath_angle_);
                 node_, name_ + ".headland_width", rclcpp::ParameterValue(1.0));
         node_->get_parameter(name_ + ".headland_width", headland_width_);
+        
+        nav2_util::declare_parameter_if_not_declared(
+                node_, name_ + ".swath_angle", rclcpp::ParameterValue(0.0));
+        node_->get_parameter(name_ + ".swath_angle", swath_angle_);
 
 
         publisher_ = node_->create_publisher<nav_msgs::msg::Path>("/coverage_path", 10);
