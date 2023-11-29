@@ -116,6 +116,7 @@ private:
   double operation_width_;
   double min_radius_;
   double lin_curve_change_;
+  double swath_angle_;
 
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
 
